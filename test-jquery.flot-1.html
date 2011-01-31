@@ -1,0 +1,54 @@
+<!doctype html>
+<title>Genericore Double Rainbow</title>
+
+<script language="javascript" type="text/javascript"
+  src="http://code.jquery.com/jquery-1.5.min.js"></script>
+<script language="javascript" type="text/javascript"
+  src="http://flot.googlecode.com/files/jquery.flot-0.1.pack.js"></script>
+
+<style>
+  #graph {
+    width: 100%;
+    height: 423px;
+  }
+</style>
+
+<script type="text/javascript">
+  $(function () {
+    var R = [], G = [];
+    for (var i = 0; i < 100; ++i) {
+      R[i] = G[i] = [i/10,0];
+    };
+    var options = {
+    };
+    var render = function () {
+      G.shift();
+      G.push([
+        G[G.length-1][0] + 1/10,
+        G[G.length-1][1] + (2*Math.random()-1)
+      ]);
+      R.shift();
+      R.push([
+        R[R.length-1][0] + 1/10,
+        Math.sin(R[R.length-1][0] + 0.2 * G[G.length-1][1])
+      ]);
+      var data = [
+        {
+          data: R,
+          color: "red",
+          label: "green",
+        },
+        {
+          data: G,
+          label: "red",
+          color: "green"
+        }
+      ];
+      $.plot($("#graph"), data, options);
+    };
+    setInterval(render, 200);
+  });
+</script>
+
+<h1>Genericore Double Rainbow</h1>
+<div id="graph"></div>
